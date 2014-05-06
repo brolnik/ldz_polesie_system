@@ -4,6 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.ldz.polesie</groupId>
     <artifactId>ldz_polesie_app</artifactId>
+    <name>ldz_polesie_app</name>
     <version>1.0-SNAPSHOT</version>
     <developers>
         <developer>
@@ -17,6 +18,10 @@
         </developer>
     </developers>
     <packaging>pom</packaging>
+    <modules>
+        <module>entities</module>
+    <module>ldz_presentation</module>
+  </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
