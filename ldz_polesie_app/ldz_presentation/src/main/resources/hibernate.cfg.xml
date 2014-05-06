@@ -5,5 +5,8 @@
     <!--
     there will be configuration of session factory
     -->
+      <mapping class="com.ldz.polesie.entities.Role"/>
+      <mapping class="com.ldz.polesie.entities.User"/>
+      
   </session-factory>
 </hibernate-configuration>
