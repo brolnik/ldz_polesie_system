@@ -20,8 +20,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>entities</module>
-    <module>ldz_presentation</module>
-  </modules>
+        <module>ldz_presentation</module>
+    </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>

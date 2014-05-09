@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+	http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd"
+              version="2.1">
+ 
+    <application>
+        <el-resolver>
+            org.springframework.web.jsf.el.SpringBeanFacesELResolver
+        </el-resolver>
+    </application>
+    
+    <managed-bean>
+        <managed-bean-name>loginUserDetailsBean</managed-bean-name>
+        <managed-bean-class>com.ldz.polesie.ldz_presentation.bean.login.LoginUserDetailsBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
+    <managed-bean>
+        <managed-bean-name>loginUserBean</managed-bean-name>
+        <managed-bean-class>com.ldz.polesie.ldz_presentation.bean.login.LoginUserBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+        <managed-property>
+            <property-name>authenticationManager</property-name>
+            <value>#{authenticationManager}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>loginUserDetailsBean</property-name>
+            <value>#{loginUserDetailsBean}</value>    
+        </managed-property>
+    </managed-bean>
+        
+        
+        
+    <navigation-rule>
+        <from-view-id>/login/login.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>logged</from-outcome>
+            <to-view-id>index.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+        
+ 
+</faces-config>

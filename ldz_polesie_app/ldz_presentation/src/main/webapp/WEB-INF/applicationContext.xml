@@ -2,7 +2,7 @@
 <!-- was: <?xml version="1.0" encoding="UTF-8"?> -->
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:p="http://www.springframework.org/schema/p" 
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
@@ -19,7 +19,8 @@
             </list>
         </property>
     </bean>
-    
+      
+   
     <bean id="dataSourceGlobal" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName" value="${hibernate.connection.driver_class}" />
         <property name="url"             value="${hibernate.connection.url}" />
@@ -48,5 +49,12 @@
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
     
-    <!-- there will be configuration of dao's beans and serives beans -->
+    <!--     there will be configuration of dao's beans and serives beans -->
+    <bean id="userDao" class="com.ldz.polesie.ldz_presentation.dao.IUserDao">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="userService" class="com.ldz.polesie.ldz_presentation.service.IUserService">
+        <property name="userDao" ref = "userDao"/>
+    </bean>
 </beans>
