@@ -6,6 +6,8 @@
 package com.ldz.polesie.ldz_presentation.bean.login;
 
 import java.io.Serializable;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -31,6 +33,8 @@ public class LoginUserBean implements Serializable {
 
         } catch (AuthenticationException ex) {
             System.out.println("rzucony blad z dupy " + ex.getMessage() + ex.getLocalizedMessage());
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niepoprawny login lub haslo", "Niepoprawny login lub haslo"));
+            return "";
         }
 
         System.out.println("po autoryzacji " + SecurityContextHolder.getContext().getAuthentication().getName());

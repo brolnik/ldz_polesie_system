@@ -33,7 +33,10 @@ public class IUserService implements UserService, UserDetailsService {
         
         com.ldz.polesie.entities.User userFromDb = userDao.findUser(login);
         
-        if(userFromDb == null) throw new UsernameNotFoundException("Nie znaleziono użytkownika o podanym loginie");
+        if(userFromDb == null) {
+            System.out.println("Nie znalazlem uzytkownika w bazie - normalnie rzuce wyjatkiem :) ale to pozniej :) ");
+            throw new UsernameNotFoundException("Nie znaleziono użytkownika o podanym loginie");
+        }
         
         String  userLogin     = userFromDb.getLogin();
         String  userPassword  = userFromDb.getPassword();

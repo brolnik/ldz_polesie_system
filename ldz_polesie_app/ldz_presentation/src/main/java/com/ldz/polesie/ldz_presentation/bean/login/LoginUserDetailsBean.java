@@ -16,11 +16,6 @@ public class LoginUserDetailsBean implements Serializable {
     private String login;
     private String password;
 
-    public void reset() {
-        login = "";
-        password = "";
-    }
-
     public String getLogin() {
         return login;
     }
