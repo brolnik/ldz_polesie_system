@@ -44,7 +44,7 @@ public class IUserService implements UserService, UserDetailsService {
         System.out.println("login uzytkownika - " + userLogin);
         
         //to specify, we will have in system funcionality of activatation/deactivation accounts ?
-        boolean isEnabled             = true;
+        boolean isEnabled             = userFromDb.getIsActive();
         boolean accountNonExpired     = true;
         boolean credentialsNonExpired = true;
         boolean accountNonLocked      = true;

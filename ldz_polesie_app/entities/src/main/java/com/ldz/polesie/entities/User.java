@@ -38,9 +38,10 @@ import javax.persistence.UniqueConstraint;
 )
 public class User implements Serializable {
 
-    private Long id;
-    private String login;
-    private String password;
+    private Long      id;
+    private String    login;
+    private String    password;
+    private Boolean   isActive;
     private Set<Role> roles;
 
     @Id
@@ -63,7 +64,7 @@ public class User implements Serializable {
         this.login = login;
     }
 
-    @Column(name = "PASSWORD", unique = true, nullable = false, length = 255)
+    @Column(name = "PASSWORD", nullable = false, length = 255)
     public String getPassword() {
         return password;
     }
@@ -92,12 +93,39 @@ public class User implements Serializable {
         this.roles = roles;
     }
 
+    @Column(name = "IS_ACTIVE", nullable = false)
+    public Boolean getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" + "id=" + id + ", login=" + login + ", password=" + password + ", isActive=" + isActive + ", roles=" + roles + '}';
+    }
+
+    public User(Long id, String login, String password, Boolean isActive, Set<Role> roles) {
+        this.id = id;
+        this.login = login;
+        this.password = password;
+        this.isActive = isActive;
+        this.roles = roles;
+    }
+    
+    public User() {
+    }
+
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 53 * hash + Objects.hashCode(this.id);
-        hash = 53 * hash + Objects.hashCode(this.login);
-        hash = 53 * hash + Objects.hashCode(this.password);
+        int hash = 3;
+        hash = 67 * hash + Objects.hashCode(this.id);
+        hash = 67 * hash + Objects.hashCode(this.login);
+        hash = 67 * hash + Objects.hashCode(this.password);
+        hash = 67 * hash + Objects.hashCode(this.isActive);
+        hash = 67 * hash + Objects.hashCode(this.roles);
         return hash;
     }
 

@@ -12,6 +12,7 @@
         <intercept-url pattern="/faces/user/**" access="hasRole('ROLE_USER')" />
         <access-denied-handler error-page="/faces/error/accessDenied.xhtml"/>
         <!--<intercept-url pattern="/**" access="IS_AUTHENTICATED_FULLY" />-->
+        <logout logout-success-url="/faces/index.xhtml" />
         <form-login login-page="/faces/login/login" />
     </http>
     

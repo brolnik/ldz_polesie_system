@@ -13,6 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
  *
@@ -33,7 +34,7 @@ public class LoginUserBean implements Serializable {
 
         } catch (AuthenticationException ex) {
             System.out.println("rzucony blad z dupy " + ex.getMessage() + ex.getLocalizedMessage());
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niepoprawny login lub haslo", "Niepoprawny login lub haslo"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niepoprawny login/haslo lub uzytkowik zostal zablokowany", "Niepoprawny login/haslo lub uzytkowik zostal zablokowany"));
             return "";
         }
 

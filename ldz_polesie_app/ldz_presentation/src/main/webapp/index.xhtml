@@ -13,10 +13,10 @@
     </h:head>
     <h:body>
          <ul>
-            <li><h:link outcome="login/login" value="Zaloguj się do systemu" /></li>
+            <sec:authorize access="isAnonymous()"><li><h:link outcome="login/login" value="Zaloguj się do systemu" /></li></sec:authorize>
             <sec:authorize access="hasRole('ROLE_ADMIN')"><li><h:link outcome="user/user" value="trololo" /></li></sec:authorize>
             <sec:authorize access="hasRole('ROLE_ADMIN')"><li><h:link outcome="user/user" value="trololo123" /></li></sec:authorize>
+            <sec:authorize access="isAuthenticated()"><li><a href="#{request.contextPath}/j_spring_security_logout">Wyloguj się</a></li></sec:authorize>
         </ul>
     </h:body>
 </html>
-
