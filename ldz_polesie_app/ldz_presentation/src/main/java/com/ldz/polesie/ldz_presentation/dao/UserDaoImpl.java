@@ -20,7 +20,7 @@ import org.springframework.stereotype.Repository;
  */
 
 @Repository
-public class IUserDao extends HibernateDaoSupport implements UserDao {
+public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
 
     @Override
     public User findUser(String login) {

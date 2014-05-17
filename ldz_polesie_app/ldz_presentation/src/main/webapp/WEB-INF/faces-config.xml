@@ -31,13 +31,35 @@
         </managed-property>
     </managed-bean>
         
-        
+    <managed-bean>
+        <managed-bean-name>ldzControllerBean</managed-bean-name>
+        <managed-bean-class>com.ldz.polesie.ldz_presentation.bean.session.LDZControllerBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+        <managed-property>
+            <property-name>playerService</property-name>
+            <value>#{playerService}</value>
+        </managed-property>
+        <managed-property>
+            <property-name>userService</property-name>
+            <value>#{userService}</value>
+        </managed-property>
+    </managed-bean>
+    
+    <managed-bean>
+        <managed-bean-name>registrationBean</managed-bean-name>
+        <managed-bean-class>com.ldz.polesie.ldz_presentation.bean.session.registration.RegistrationBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+        <managed-property>
+            <property-name>ldzControllerBean</property-name>
+            <value>#{ldzControllerBean}</value>
+        </managed-property>
+    </managed-bean>
         
     <navigation-rule>
         <from-view-id>/login/login.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>logged</from-outcome>
-            <to-view-id>index.xhtml</to-view-id>
+            <to-view-id>/index.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
         

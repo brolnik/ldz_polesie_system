@@ -23,7 +23,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  *
  * @author Rola
  */
-public class IUserService implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     //injected by spring
     private UserDao userDao;

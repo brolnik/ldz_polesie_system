@@ -50,11 +50,28 @@
     </bean>
     
     <!--     there will be configuration of dao's beans and serives beans -->
-    <bean id="userDao" class="com.ldz.polesie.ldz_presentation.dao.IUserDao">
+    <!-- DAO's-->
+    <bean id="userDao" class="com.ldz.polesie.ldz_presentation.dao.UserDaoImpl">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
     
-    <bean id="userService" class="com.ldz.polesie.ldz_presentation.service.IUserService">
+    <bean id="roleDao" class="com.ldz.polesie.ldz_presentation.dao.RoleDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <bean id="playerDao" class="com.ldz.polesie.ldz_presentation.dao.PlayerDaoImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+    <!-- SERVICES -->
+    <bean id="userService" class="com.ldz.polesie.ldz_presentation.service.UserServiceImpl" scope="singleton">
         <property name="userDao" ref = "userDao"/>
     </bean>
+    
+    <bean id="playerService" class="com.ldz.polesie.ldz_presentation.service.PlayerServiceImpl" scope="singleton">
+        <property name="userDao"   ref = "userDao"/>
+        <property name="roleDao"   ref = "roleDao"/>
+        <property name="playerDao" ref = "playerDao"/>
+    </bean>
+     
 </beans>

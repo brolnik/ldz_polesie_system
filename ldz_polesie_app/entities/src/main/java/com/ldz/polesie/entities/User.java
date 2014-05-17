@@ -34,7 +34,7 @@ import javax.persistence.UniqueConstraint;
         uniqueConstraints
         = {
             @UniqueConstraint(columnNames = "LOGIN")
-        }
+          }
 )
 public class User implements Serializable {
 
