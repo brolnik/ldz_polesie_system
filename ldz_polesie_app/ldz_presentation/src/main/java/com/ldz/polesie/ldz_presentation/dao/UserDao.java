@@ -6,15 +6,12 @@
 
 package com.ldz.polesie.ldz_presentation.dao;
 
-import java.util.List;
+import com.ldz.polesie.entities.User;
 
 /**
  *
  * @author Rola
  */
-public interface UserDao {
-    
-    public com.ldz.polesie.entities.User       findUser(String login);
-    public List<com.ldz.polesie.entities.User> findAllUsers();
-    
+public interface UserDao extends LDZAbstractDao<User>{
+        
 }

@@ -12,10 +12,13 @@ import com.ldz.polesie.ldz_presentation.dao.PlayerDao;
 import com.ldz.polesie.ldz_presentation.dao.RoleDao;
 import com.ldz.polesie.ldz_presentation.dao.UserDao;
 import com.ldz.polesie.ldz_presentation.model.PlayerRegistrationModel;
-import java.io.Serializable;
+import com.ldz.polesie.ldz_presentation.utils.DateFormatter;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -30,27 +33,24 @@ public class PlayerServiceImpl implements PlayerService  {
     private final static String ROLE_USER = "ROLE_USER";
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public void createNewPlayer(PlayerRegistrationModel playerModel) {
         
         //Find role by name - by default we are creating only player with USER role, but administrator
         //will have opportunity change it or add new one (e.g. role admin)
         System.out.println("Player Model podczas tworzenia uzytkownika - " + playerModel.toString());
         
-        Role roleFromDB = roleDao.findRoleByName(ROLE_USER);
-        
+        Role roleFromDB = getUserRole(); 
         Set<Role> roles = new HashSet<>();
-        roles.add(roleFromDB);
         
         //Create new user
         User user = new User();
         user.setIsActive(Boolean.FALSE);
         user.setLogin(playerModel.getLogin());
         user.setPassword(playerModel.getPassword());
-        user.setRoles(roles);
-        
-        //Create new player
+
         Player player = new Player();
-        //player.setBirthDay(); // dopisz formater dat
+        player.setBirthDay(playerModel.getBirthDay());
         player.setEmail(playerModel.getEmail());
         player.setFirstname(playerModel.getFirstname());
         player.setNickname(playerModel.getNickname());
@@ -63,7 +63,17 @@ public class PlayerServiceImpl implements PlayerService  {
         player.setTshirtNumber(playerModel.getTshirtNumber());
         player.setInjured(Boolean.FALSE);
         
-        playerDao.createOrUpdatePlayer(player, user);
+        roles.add(roleFromDB);
+        user.setPlayer(player);
+        user.setRoles(roles);
+        player.setUser(user);
+        
+        userDao.createOrUpdate(user);
+    }
+    
+    @Transactional(readOnly = true)
+    private Role getUserRole() {
+        return roleDao.findByUniqueValue("roleName", ROLE_USER);
     }
 
     @Autowired

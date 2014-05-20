@@ -37,7 +37,6 @@ public class Role implements Serializable {
     private List<User> users;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ROLE_ID", unique = true, nullable = false)
     public Long getId() {
         return id;

@@ -18,8 +18,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import org.hibernate.annotations.GenericGenerator;
 
 /**
  *
@@ -34,25 +38,26 @@ import javax.persistence.UniqueConstraint;
         uniqueConstraints
         = {
             @UniqueConstraint(columnNames = "LOGIN")
-          }
+        }
 )
 public class User implements Serializable {
 
-    private Long      id;
+    private Long      userId;
     private String    login;
     private String    password;
     private Boolean   isActive;
     private Set<Role> roles;
+    private Player    player;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "USER_ID", unique = true, nullable = false)
-    public Long getId() {
-        return id;
+    @Column(name = "USER_ID", unique = true)
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     @Column(name = "LOGIN", unique = true, nullable = false, length = 255)
@@ -79,11 +84,11 @@ public class User implements Serializable {
             joinColumns
             = {
                 @JoinColumn(name = "USER_ID", nullable = false)
-              },
+            },
             inverseJoinColumns
             = {
                 @JoinColumn(name = "ROLE_ID", nullable = false)
-              }
+            }
     )
     public Set<Role> getRoles() {
         return roles;
@@ -102,26 +107,37 @@ public class User implements Serializable {
         this.isActive = isActive;
     }
 
-    @Override
-    public String toString() {
-        return "User{" + "id=" + id + ", login=" + login + ", password=" + password + ", isActive=" + isActive + ", roles=" + roles + '}';
+    @OneToOne(cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    public Player getPlayer() {
+        return player;
     }
 
-    public User(Long id, String login, String password, Boolean isActive, Set<Role> roles) {
-        this.id = id;
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" + "id=" + userId + ", login=" + login + ", password=" + password + ", isActive=" + isActive + ", roles=" + roles + '}';
+    }
+
+    public User(Long userId, String login, String password, Boolean isActive, Set<Role> roles, Player player) {
+        this.userId = userId;
         this.login = login;
         this.password = password;
         this.isActive = isActive;
         this.roles = roles;
+        this.player = player;
     }
-    
+
     public User() {
     }
 
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 67 * hash + Objects.hashCode(this.id);
+        hash = 67 * hash + Objects.hashCode(this.userId);
         hash = 67 * hash + Objects.hashCode(this.login);
         hash = 67 * hash + Objects.hashCode(this.password);
         hash = 67 * hash + Objects.hashCode(this.isActive);

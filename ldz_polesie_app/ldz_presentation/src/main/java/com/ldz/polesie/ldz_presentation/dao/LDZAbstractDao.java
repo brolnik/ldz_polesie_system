@@ -6,12 +6,14 @@
 
 package com.ldz.polesie.ldz_presentation.dao;
 
-import com.ldz.polesie.entities.Role;
-
 /**
  *
  * @author Rola
+ * @param <T>
  */
-public interface RoleDao extends LDZAbstractDao<Role>{
+public interface LDZAbstractDao <T> {
+ 
+   public <T> void createOrUpdate(T t);
+   public T findByUniqueValue(String elemName, Object value);
     
 }

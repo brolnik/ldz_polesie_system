@@ -11,13 +11,13 @@
     <h:body>
 
         <h:form>
-        <h:panelGrid columns="2">  
-            <h:outputLabel for="j_username" value="User: " />  
-            <h:inputText id="j_username" value="#{loginUserDetailsBean.login}" required="true"/>  
-            <h:outputLabel for="j_password" value="Password: " />  
-            <h:inputSecret id="j_password" value="#{loginUserDetailsBean.password}" required="true" />  
-            <h:commandButton id="submitButton" value="Start" action="#{loginUserBean.login}" />  
-        </h:panelGrid>  
+            <h:panelGrid columns="2">  
+                <h:outputLabel for="j_username" value="User: " />  
+                <h:inputText id="j_username" value="#{loginUserDetailsBean.login}" required="true"/>  
+                <h:outputLabel for="j_password" value="Password: " />  
+                <h:inputSecret id="j_password" value="#{loginUserDetailsBean.password}" required="true" />  
+                <h:commandButton id="submitButton" value="Start" action="#{loginUserBean.login}" />  
+            </h:panelGrid>  
         </h:form>
     </h:body>
 </html>

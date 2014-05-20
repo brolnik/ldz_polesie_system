@@ -6,6 +6,7 @@
 
 package com.ldz.polesie.ldz_presentation.service;
 
+import com.ldz.polesie.entities.Role;
 import com.ldz.polesie.ldz_presentation.model.PlayerRegistrationModel;
 import org.springframework.stereotype.Service;
 
@@ -17,5 +18,5 @@ import org.springframework.stereotype.Service;
 public interface PlayerService {
     
     public void createNewPlayer(PlayerRegistrationModel playerModel);
-    
+      
 }

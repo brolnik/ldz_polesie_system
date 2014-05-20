@@ -43,8 +43,11 @@ public class RegistrationBean implements Serializable {
     public String registerPlayer() {
         try {
             ldzControllerBean.getPlayerService().createNewPlayer(registrationModel);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "jeblo bledem", "jeblo bledem"));
+            System.out.println(e.getCause().toString());
+            System.out.println(e.getMessage());
+            System.out.println(Arrays.toString(e.getStackTrace()));
             return "";
         }
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "zarejestrowalem uzytkownika", "zarejestrowalem uzytkownika"));

@@ -18,6 +18,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -29,9 +30,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private UserDao userDao;
     
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         
-        com.ldz.polesie.entities.User userFromDb = userDao.findUser(login);
+        com.ldz.polesie.entities.User userFromDb = getUserByLogin(login);
         
         if(userFromDb == null) {
             System.out.println("Nie znalazlem uzytkownika w bazie - normalnie rzuce wyjatkiem :) ale to pozniej :) ");
@@ -64,6 +66,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userDetails;
     }
 
+    @Transactional(readOnly = true)
+    private com.ldz.polesie.entities.User getUserByLogin(String login) {
+        return userDao.findByUniqueValue("login", login);
+    }
     
     public UserDao getUserDao() {
         return userDao;

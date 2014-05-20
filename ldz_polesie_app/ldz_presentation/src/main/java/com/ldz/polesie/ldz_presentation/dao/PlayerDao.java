@@ -6,12 +6,12 @@
 
 package com.ldz.polesie.ldz_presentation.dao;
 
+import com.ldz.polesie.entities.Player;
+
 /**
  *
  * @author Rola
  */
-public interface PlayerDao {
-    
-    public void createOrUpdatePlayer(com.ldz.polesie.entities.Player player, com.ldz.polesie.entities.User user);
+public interface PlayerDao extends LDZAbstractDao<Player> {
     
 }

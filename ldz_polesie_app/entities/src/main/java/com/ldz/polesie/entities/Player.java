@@ -8,6 +8,7 @@ package com.ldz.polesie.entities;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,8 +18,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Type;
 
 /**
  *
@@ -28,33 +33,35 @@ import javax.persistence.Temporal;
 @Table(name = "PLAYER_T")
 public class Player implements Serializable {
 
-    private Long    id;
-    private String  firstname;
-    private String  surname;
-    private Date    birthDay;
+    private Long playerId;
+    private String firstname;
+    private String surname;
+    private User user;
+    private Date birthDay;
     private Boolean injured;
-    private String  position;
-    private String  nickname;
+    private String position;
+    private String nickname;
     private Integer scoredGoals;
     private Integer playedMatches;
-    private String  email;
-    private String  phoneNumber;
-    private byte[]  photo;
+    private String email;
+    private String phoneNumber;
+    private byte[] photo;
     private Integer tshirtNumber;
-    private User    user;
-    
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "PLAYER_ID", unique = true, nullable = false)
-    public Long getId() {
-        return id;
+    @GeneratedValue(generator = "gen")
+    @GenericGenerator(name = "gen", strategy = "foreign",
+            parameters = @Parameter(name = "property", value = "user"))
+    public Long getPlayerId() {
+        return playerId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPlayerId(Long playerId) {
+        this.playerId = playerId;
     }
 
-    @Column(name = "FIRSTNAME", nullable = false, length = 255)
+    @Column(name = "FIRSTNAME", nullable = false)
     public String getFirstname() {
         return firstname;
     }
@@ -63,13 +70,22 @@ public class Player implements Serializable {
         this.firstname = firstname;
     }
 
-    @Column(name = "SURNAME", nullable = false, length = 255)
+    @Column(name = "SURNAME", nullable = false)
     public String getSurname() {
         return surname;
     }
 
     public void setSurname(String surname) {
         this.surname = surname;
+    }
+
+    @OneToOne(mappedBy = "player", cascade = CascadeType.ALL)
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Column(name = "BIRTHDAY", nullable = false)
@@ -128,7 +144,7 @@ public class Player implements Serializable {
     }
 
     @Column(name = "PHOTO")
-    @Lob
+    @Type(type = "org.hibernate.type.BinaryType")
     public byte[] getPhoto() {
         return photo;
     }
@@ -162,41 +178,25 @@ public class Player implements Serializable {
 
     public void setTshirtNumber(Integer tshirtNumber) {
         this.tshirtNumber = tshirtNumber;
-    }   
-
-    @OneToOne(cascade = {javax.persistence.CascadeType.ALL}, fetch = FetchType.EAGER)
-    @JoinColumn(name = "USER_ID")
-    public User getUser() {
-        return user;
     }
 
-    public void setUser(User user) {
+    public Player() {
+    }
+
+    public Player(Long playerId, String firstname, String surname, User user, Date birthDay, Boolean injured, String position, String nickname, Integer scoredGoals, Integer playedMatches, String email, String phoneNumber, byte[] photo, Integer tshirtNumber) {
+        this.playerId = playerId;
+        this.firstname = firstname;
+        this.surname = surname;
         this.user = user;
+        this.birthDay = birthDay;
+        this.injured = injured;
+        this.position = position;
+        this.nickname = nickname;
+        this.scoredGoals = scoredGoals;
+        this.playedMatches = playedMatches;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.photo = photo;
+        this.tshirtNumber = tshirtNumber;
     }
-    
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 29 * hash + Objects.hashCode(this.id);
-        hash = 29 * hash + Objects.hashCode(this.firstname);
-        hash = 29 * hash + Objects.hashCode(this.surname);
-        hash = 29 * hash + Objects.hashCode(this.nickname);
-        hash = 29 * hash + Objects.hashCode(this.phoneNumber);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Player other = (Player) obj;
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        return Objects.equals(this.email, other.email);
-    }    
 }
