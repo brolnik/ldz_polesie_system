@@ -12,8 +12,8 @@ import com.ldz.polesie.ldz_presentation.dao.PlayerDao;
 import com.ldz.polesie.ldz_presentation.dao.RoleDao;
 import com.ldz.polesie.ldz_presentation.dao.UserDao;
 import com.ldz.polesie.ldz_presentation.model.PlayerRegistrationModel;
-import com.ldz.polesie.ldz_presentation.utils.DateFormatter;
-import java.util.Date;
+import com.ldz.polesie.ldz_presentation.utils.HashPassword;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ public class PlayerServiceImpl implements PlayerService  {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void createNewPlayer(PlayerRegistrationModel playerModel) {
+    public void createNewPlayer(PlayerRegistrationModel playerModel) throws NoSuchAlgorithmException {
         
         //Find role by name - by default we are creating only player with USER role, but administrator
         //will have opportunity change it or add new one (e.g. role admin)
@@ -47,7 +47,7 @@ public class PlayerServiceImpl implements PlayerService  {
         User user = new User();
         user.setIsActive(Boolean.FALSE);
         user.setLogin(playerModel.getLogin());
-        user.setPassword(playerModel.getPassword());
+        user.setPassword(HashPassword.hashPassword(playerModel.getPassword()));
 
         Player player = new Player();
         player.setBirthDay(playerModel.getBirthDay());
