@@ -8,6 +8,7 @@ package com.ldz.polesie.ldz_presentation.service;
 
 import com.ldz.polesie.ldz_presentation.model.PlayerRegistrationModel;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,5 +19,6 @@ import org.springframework.stereotype.Service;
 public interface PlayerService {
     
     public void createNewPlayer(PlayerRegistrationModel playerModel) throws NoSuchAlgorithmException;
+    public List<com.ldz.polesie.entities.User>  getAllUsers();
       
 }

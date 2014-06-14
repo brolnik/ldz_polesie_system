@@ -18,7 +18,7 @@ import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 public abstract class LDZAbstractDaoImpl<T> extends HibernateDaoSupport implements LDZAbstractDao<T> {
 
     private final Class<T> type;
-    
+
     @Override
     public <T> void createOrUpdate(T t) {
         getHibernateTemplate().saveOrUpdate(t);
@@ -31,6 +31,12 @@ public abstract class LDZAbstractDaoImpl<T> extends HibernateDaoSupport implemen
         query.append("from ").append(type.getSimpleName()).append(" as x where ").append("x.").append(elemName).append(" = ?");
         List<T> results = getHibernateTemplate().find(query.toString(), value);
         return results.get(0);
+    }
+
+    @Override
+    public List<T> getAll() {
+        List<T> results = getHibernateTemplate().loadAll(type);
+        return results;
     }
 
     public LDZAbstractDaoImpl() {

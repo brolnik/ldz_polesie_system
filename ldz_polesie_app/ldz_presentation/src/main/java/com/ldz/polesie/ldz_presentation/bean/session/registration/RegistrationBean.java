@@ -49,6 +49,8 @@ public class RegistrationBean implements Serializable {
             System.out.println(e.getMessage());
             System.out.println(Arrays.toString(e.getStackTrace()));
             return "";
+        } finally {
+            registrationModel = new PlayerRegistrationModel();
         }
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "zarejestrowalem uzytkownika", "zarejestrowalem uzytkownika"));
         return "";

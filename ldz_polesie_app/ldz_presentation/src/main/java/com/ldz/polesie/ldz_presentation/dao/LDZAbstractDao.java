@@ -6,6 +6,8 @@
 
 package com.ldz.polesie.ldz_presentation.dao;
 
+import java.util.List;
+
 /**
  *
  * @author Rola
@@ -15,5 +17,5 @@ public interface LDZAbstractDao <T> {
  
    public <T> void createOrUpdate(T t);
    public T findByUniqueValue(String elemName, Object value);
-    
+   public List<T> getAll();
 }

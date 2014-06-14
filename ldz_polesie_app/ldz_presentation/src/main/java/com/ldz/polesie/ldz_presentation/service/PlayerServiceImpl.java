@@ -15,6 +15,7 @@ import com.ldz.polesie.ldz_presentation.model.PlayerRegistrationModel;
 import com.ldz.polesie.ldz_presentation.utils.HashPassword;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Propagation;
@@ -33,7 +34,7 @@ public class PlayerServiceImpl implements PlayerService  {
     private final static String ROLE_USER = "ROLE_USER";
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void createNewPlayer(PlayerRegistrationModel playerModel) throws NoSuchAlgorithmException {
         
         //Find role by name - by default we are creating only player with USER role, but administrator
@@ -90,4 +91,10 @@ public class PlayerServiceImpl implements PlayerService  {
     public void setRoleDao(RoleDao roleDao) {
         this.roleDao = roleDao;
     }
+    
+    @Transactional(readOnly = true)
+    public List<com.ldz.polesie.entities.User>  getAllUsers() {
+        return this.userDao.getAll();
+    }
+    
 }

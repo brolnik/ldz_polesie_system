@@ -10,6 +10,7 @@ import com.ldz.polesie.entities.Role;
 import com.ldz.polesie.ldz_presentation.dao.UserDao;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -80,5 +81,5 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         this.userDao = userDao;
     }
     
-    
+
 }

@@ -64,11 +64,11 @@
     </bean>
     
     <!-- SERVICES -->
-    <bean id="userService" class="com.ldz.polesie.ldz_presentation.service.UserServiceImpl" scope="singleton">
+    <bean id="userService" class="com.ldz.polesie.ldz_presentation.service.UserServiceImpl">
         <property name="userDao" ref = "userDao"/>
     </bean>
     
-    <bean id="playerService" class="com.ldz.polesie.ldz_presentation.service.PlayerServiceImpl" scope="singleton">
+    <bean id="playerService" class="com.ldz.polesie.ldz_presentation.service.PlayerServiceImpl" scope="session">
         <property name="userDao"   ref = "userDao"/>
         <property name="roleDao"   ref = "roleDao"/>
         <property name="playerDao" ref = "playerDao"/>

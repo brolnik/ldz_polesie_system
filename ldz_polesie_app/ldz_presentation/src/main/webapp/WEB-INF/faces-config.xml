@@ -63,5 +63,14 @@
         </navigation-case>
     </navigation-rule>
         
+    <managed-bean>
+        <managed-bean-name>playersBean</managed-bean-name>
+        <managed-bean-class>com.ldz.polesie.ldz_presentation.bean.session.PlayersBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+        <managed-property>
+            <property-name>ldzControllerBean</property-name>
+            <value>#{ldzControllerBean}</value>
+        </managed-property>
+    </managed-bean>
  
 </faces-config>
