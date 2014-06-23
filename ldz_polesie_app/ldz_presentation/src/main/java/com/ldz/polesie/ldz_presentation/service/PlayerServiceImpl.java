@@ -11,6 +11,7 @@ import com.ldz.polesie.entities.User;
 import com.ldz.polesie.ldz_presentation.dao.PlayerDao;
 import com.ldz.polesie.ldz_presentation.dao.RoleDao;
 import com.ldz.polesie.ldz_presentation.dao.UserDao;
+import com.ldz.polesie.ldz_presentation.exceptions.PlayerException;
 import com.ldz.polesie.ldz_presentation.model.PlayerRegistrationModel;
 import com.ldz.polesie.ldz_presentation.utils.HashPassword;
 import java.security.NoSuchAlgorithmException;
@@ -30,16 +31,40 @@ public class PlayerServiceImpl implements PlayerService  {
     private UserDao   userDao;
     private PlayerDao playerDao;
     private RoleDao   roleDao;
+    private ConfigurationService configurationService;
     
     private final static String ROLE_USER = "ROLE_USER";
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void createNewPlayer(PlayerRegistrationModel playerModel) throws NoSuchAlgorithmException {
+    @Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = PlayerException.class)
+    public void createNewPlayer(PlayerRegistrationModel playerModel) throws NoSuchAlgorithmException, PlayerException {
         
+        if(playerModel == null || playerModel.getLogin() == null || playerModel.getNickname() == null || playerModel.getEmail() == null || playerModel.getPhoneNumber() == null) {
+            throw PlayerException.invalidData();
+        }
+        
+        User userFromDB = userDao.findByUniqueValue("login", playerModel.getLogin());
+        if(userFromDB != null) {
+            throw PlayerException.playerWithSameLoginExists();
+        }
+        
+        Player playerFromDB = playerDao.findByUniqueValue("nickname", playerModel.getNickname());
+        if(playerFromDB != null) {
+            throw PlayerException.playerWithSameNicknameExists();
+        }
+        
+        playerFromDB = playerDao.findByUniqueValue("email", playerModel.getEmail());
+        if(playerFromDB != null) {
+            throw PlayerException.playerWithSameMailExists();
+        }
+        
+        playerFromDB = playerDao.findByUniqueValue("phoneNumber", playerModel.getPhoneNumber());
+        if(playerFromDB != null) {
+            throw PlayerException.playerWithSamePhoneExists();
+        }
         //Find role by name - by default we are creating only player with USER role, but administrator
         //will have opportunity change it or add new one (e.g. role admin)
-        System.out.println("Player Model podczas tworzenia uzytkownika - " + playerModel.toString());
+        System.out.println("PlayerModel during player registration - " + playerModel.toString());
         
         Role roleFromDB = getUserRole(); 
         Set<Role> roles = new HashSet<>();
@@ -61,14 +86,20 @@ public class PlayerServiceImpl implements PlayerService  {
         player.setPosition(playerModel.getPosition());
         player.setScoredGoals(0);
         player.setSurname(playerModel.getSurname());
-        player.setTshirtNumber(playerModel.getTshirtNumber());
         player.setInjured(Boolean.FALSE);
+        
+        Boolean isAvailable = configurationService.isNumberStillAvailable(playerModel.getTshirtNumber());
+        if(isAvailable != null && Boolean.FALSE == isAvailable) {
+            throw PlayerException.numberAlreadyUsed();
+        }
+        
+        player.setTshirtNumber(playerModel.getTshirtNumber());
+        configurationService.updateTshirtNumberConfiguration(playerModel.getTshirtNumber());
         
         roles.add(roleFromDB);
         user.setPlayer(player);
         user.setRoles(roles);
         player.setUser(user);
-        
         userDao.createOrUpdate(user);
     }
     
@@ -93,8 +124,13 @@ public class PlayerServiceImpl implements PlayerService  {
     }
     
     @Transactional(readOnly = true)
+    @Override
     public List<com.ldz.polesie.entities.User>  getAllUsers() {
         return this.userDao.getAll();
     }
-    
+
+    @Autowired
+    public void setConfigurationService(ConfigurationService configurationService) {
+        this.configurationService = configurationService;
+    }
 }

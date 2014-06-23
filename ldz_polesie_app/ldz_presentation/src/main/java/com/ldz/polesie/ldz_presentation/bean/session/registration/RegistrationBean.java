@@ -5,14 +5,18 @@
  */
 package com.ldz.polesie.ldz_presentation.bean.session.registration;
 
+import com.ldz.polesie.entities.configuration.ConfigurationPosition;
 import com.ldz.polesie.ldz_presentation.bean.session.LDZControllerBean;
+import com.ldz.polesie.ldz_presentation.exceptions.PlayerException;
 import com.ldz.polesie.ldz_presentation.model.PlayerRegistrationModel;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
@@ -28,31 +32,28 @@ import org.primefaces.model.StreamedContent;
 public class RegistrationBean implements Serializable {
 
     private LDZControllerBean ldzControllerBean;
-    private PlayerRegistrationModel registrationModel = new PlayerRegistrationModel();
+    private PlayerRegistrationModel registrationModel;
     private StreamedContent avatar;
-    private List<String> positions = new ArrayList<String>();
+    private List<String> configurationPositions;
+    private List<Integer> configurationNumbers;
 
     @PostConstruct
     public void initPositions() {
-        positions.add("Bramkarz");
-        positions.add("Obrońca");
-        positions.add("Pomocnik");
-        positions.add("Napastnik");
+        configurationPositions = ldzControllerBean.getConfigurationService().getPositions();
+        configurationNumbers = ldzControllerBean.getConfigurationService().getAvailableTshirtNumbers();
     }
 
     public String registerPlayer() {
         try {
             ldzControllerBean.getPlayerService().createNewPlayer(registrationModel);
-        } catch (Throwable e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "jeblo bledem", "jeblo bledem"));
-            System.out.println(e.getCause().toString());
+            configurationNumbers = ldzControllerBean.getConfigurationService().getAvailableTshirtNumbers();
+        } catch (NoSuchAlgorithmException | PlayerException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, e.getMessage(), e.getMessage()));
             System.out.println(e.getMessage());
             System.out.println(Arrays.toString(e.getStackTrace()));
             return "";
-        } finally {
-            registrationModel = new PlayerRegistrationModel();
         }
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "zarejestrowalem uzytkownika", "zarejestrowalem uzytkownika"));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Rejestracja nowego użytkownika zakończona sukcesem", "Rejestracja nowego użytkownika zakończona sukcesem"));
         return "";
     }
 
@@ -81,25 +82,32 @@ public class RegistrationBean implements Serializable {
     }
 
     public String onFlowProcess(FlowEvent event) {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Jestem tutaj", "Jestem tutaj"));
-        System.out.println("Dupa jasiu, wywoluje metode");
+        System.out.println("Going to the next step, step name is: - " + event.getNewStep());
         return event.getNewStep();
     }
 
     public void handleFileUpload(FileUploadEvent event) {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "wgralem fotke", "wgralem fotke"));
+        System.out.println("Uploading new photo...");
         registrationModel.setPhoto(event.getFile().getContents());
-        System.out.println("Zdjecie " + Arrays.toString(registrationModel.getPhoto()));
         InputStream io = new ByteArrayInputStream(registrationModel.getPhoto());
         avatar = new DefaultStreamedContent(io);
+        System.out.println("Photo uploaded...");
     }
 
-    public List<String> getPositions() {
-        return positions;
+    public List<String> getConfigurationPositions() {
+        return configurationPositions;
     }
 
-    public void setPositions(List<String> positions) {
-        this.positions = positions;
+    public void setConfigurationPositions(List<String> configurationPositions) {
+        this.configurationPositions = configurationPositions;
+    }
+
+    public List<Integer> getConfigurationNumbers() {
+        return configurationNumbers;
+    }
+
+    public void setConfigurationNumbers(List<Integer> configurationNumbers) {
+        this.configurationNumbers = configurationNumbers;
     }
 
 }

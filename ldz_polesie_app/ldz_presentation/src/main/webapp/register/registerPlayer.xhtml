@@ -37,7 +37,6 @@ and open the template in the editor.
                 </p:tab>
                 <p:tab id="personal" title="Dane Personalne">
                     <p:panel header="Dane Personalne">
-
                         <p:messages id="messages_data" autoUpdate="true" rendered="true"/>
                         <h:panelGrid columns="2" styleClass="grid">
                             <h:outputLabel value="Imie*: "/>
@@ -46,15 +45,12 @@ and open the template in the editor.
                             <h:outputLabel value="Nazwisko*: "/>
                             <p:inputText required="true" label="Nazwisko" value="#{registrationBean.registrationModel.surname}"/>
 
-                            <h:outputLabel value="Data urodzenia: "/>
-                            <p:calendar required="true" value="#{registrationBean.registrationModel.birthDay}" id="date" pattern="dd/MM/yyyy" />
-
                             <h:outputLabel value="Zdjęcie: "/>
                             <p:fileUpload id="photo" fileUploadListener="#{registrationBean.handleFileUpload}" mode="advanced" dragDropSupport="true"
-                                          update="messages_data,avatar" sizeLimit="100000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
+                                          update="messages_data, avatarToDisplay" sizeLimit="100000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" />
 
-                            <h:outputLabel value="Zdjęcie wczytane: "/>
-                            <p:graphicImage id="avatar" value="#{registrationBean.avatar}" />
+                            <h:outputLabel value="Data urodzenia: "/>
+                            <p:calendar required="true" value="#{registrationBean.registrationModel.birthDay}" id="bdate" pattern="dd/MM/yyyy" />
 
                         </h:panelGrid>
                     </p:panel>
@@ -78,41 +74,46 @@ and open the template in the editor.
                             <h:outputLabel value="Pseudonim*: "/>
                             <p:inputText required="true" label="Pseudonim" value="#{registrationBean.registrationModel.nickname}"/>
 
-                            <h:outputText value="Numer na koszulce " />
-                            <p:inputText required="true" label="numberOnTshirt" value="#{registrationBean.registrationModel.tshirtNumber}"/>
+                            <h:outputLabel value="Numer na koszulce*: "/>
+                            <p:selectOneMenu value="#{registrationBean.registrationModel.tshirtNumber}" effect="fade">
+                                <f:selectItem itemLabel="Select One" itemValue="" />
+                                <f:selectItems value="#{registrationBean.configurationNumbers}" var="number" itemLabel="#{number}" itemValue="#{number}"/>
+                            </p:selectOneMenu>
 
                             <h:outputLabel value="Pozycja*: "/>
                             <p:selectOneMenu value="#{registrationBean.registrationModel.position}" effect="fade">
                                 <f:selectItem itemLabel="Select One" itemValue="" />
-                                <f:selectItems value="#{registrationBean.positions}" var="position" itemLabel="#{position}" itemValue="#{position}"/>
+                                <f:selectItems value="#{registrationBean.configurationPositions}" var="position" itemLabel="#{position}" itemValue="#{position}"/>
                             </p:selectOneMenu>
                         </h:panelGrid>
                     </p:panel>
                 </p:tab>
                 <p:tab id="confirm" title="Confirmation">
                     <p:panel header="Confirmation">
-                        <h:outputText value="Login: " />
-                        <h:outputText styleClass="outputLabel"
-                                      value="#{registrationBean.registrationModel.login}" />
+                        <p:messages id="messages_registration" autoUpdate="true" rendered="true"/>
+                        <h:panelGrid columns="2" styleClass="grid">
+                            <h:outputText value="Login: " />
+                            <h:outputText styleClass="outputLabel"
+                                          value="#{registrationBean.registrationModel.login}" />
 
-                        <h:outputText value="Imię " />
-                        <h:outputText styleClass="outputLabel"
-                                      value="#{registrationBean.registrationModel.firstname}" />
+                            <h:outputText value="Imię " />
+                            <h:outputText styleClass="outputLabel"
+                                          value="#{registrationBean.registrationModel.firstname}" />
 
-                        <h:outputText value="Nazwisko " />
-                        <h:outputText styleClass="outputLabel"
-                                      value="#{registrationBean.registrationModel.surname}" />
+                            <h:outputText value="Nazwisko " />
+                            <h:outputText styleClass="outputLabel"
+                                          value="#{registrationBean.registrationModel.surname}" />
 
-                        <h:outputText value="Pozycja: " />
-                        <h:outputText styleClass="outputLabel"
-                                      value="#{registrationBean.registrationModel.position}" />
+                            <h:outputText value="Pozycja: " />
+                            <h:outputText styleClass="outputLabel"
+                                          value="#{registrationBean.registrationModel.position}" />
 
-                        <h:outputLabel value="Zdjęcie wczytane: "/>
-                        <p:graphicImage id="avatarToDisplay" value="#{registrationBean.avatar}" />
+                            <h:outputLabel value="Zdjęcie wczytane: "/>
+                            <p:graphicImage id="avatarToDisplay" value="#{registrationBean.avatar}" />
 
-                        <p:commandButton value="Submit"
-                                         actionListener="#{registrationBean.registerPlayer()}"/>
-
+                            <p:commandButton value="Submit"
+                                             actionListener="#{registrationBean.registerPlayer()}"/>
+                        </h:panelGrid>
                     </p:panel>
                 </p:tab>
             </p:wizard>

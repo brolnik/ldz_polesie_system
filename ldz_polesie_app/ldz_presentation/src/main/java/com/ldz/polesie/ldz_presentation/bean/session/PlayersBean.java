@@ -35,8 +35,6 @@ public class PlayersBean implements Serializable {
         this.userList = userList;
     }
 
-
-
     public LDZControllerBean getLdzControllerBean() {
         return ldzControllerBean;
     }
@@ -52,6 +50,4 @@ public class PlayersBean implements Serializable {
     public void setDupa(int dupa) {
         this.dupa = dupa;
     }
-
-    
 }

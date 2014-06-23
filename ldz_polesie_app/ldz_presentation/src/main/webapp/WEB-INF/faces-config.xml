@@ -17,6 +17,12 @@
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
     
+     <managed-bean>
+        <managed-bean-name>registrationModel</managed-bean-name>
+        <managed-bean-class>com.ldz.polesie.ldz_presentation.model.PlayerRegistrationModel</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    
     <managed-bean>
         <managed-bean-name>loginUserBean</managed-bean-name>
         <managed-bean-class>com.ldz.polesie.ldz_presentation.bean.login.LoginUserBean</managed-bean-class>
@@ -43,6 +49,10 @@
             <property-name>userService</property-name>
             <value>#{userService}</value>
         </managed-property>
+        <managed-property>
+            <property-name>configurationService</property-name>
+            <value>#{configurationService}</value>
+        </managed-property>
     </managed-bean>
     
     <managed-bean>
@@ -52,6 +62,10 @@
         <managed-property>
             <property-name>ldzControllerBean</property-name>
             <value>#{ldzControllerBean}</value>
+        </managed-property>
+         <managed-property>
+            <property-name>registrationModel</property-name>
+            <value>#{registrationModel}</value>
         </managed-property>
     </managed-bean>
         

@@ -8,6 +8,9 @@
       <mapping class="com.ldz.polesie.entities.Role"/>
       <mapping class="com.ldz.polesie.entities.User"/>
       <mapping class="com.ldz.polesie.entities.Player"/>
+      <mapping class="com.ldz.polesie.entities.configuration.Configuration"/>
+      <mapping class="com.ldz.polesie.entities.configuration.ConfigurationNumber"/>
+      <mapping class="com.ldz.polesie.entities.configuration.ConfigurationPosition"/>
       
   </session-factory>
 </hibernate-configuration>

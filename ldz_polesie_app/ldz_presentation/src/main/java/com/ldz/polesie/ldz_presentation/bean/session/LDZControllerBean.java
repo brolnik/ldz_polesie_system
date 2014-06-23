@@ -6,6 +6,7 @@
 
 package com.ldz.polesie.ldz_presentation.bean.session;
 
+import com.ldz.polesie.ldz_presentation.service.ConfigurationService;
 import com.ldz.polesie.ldz_presentation.service.PlayerService;
 import com.ldz.polesie.ldz_presentation.service.UserService;
 import java.io.Serializable;
@@ -16,8 +17,9 @@ import java.io.Serializable;
  */
 public class LDZControllerBean implements Serializable {
     
-    private PlayerService playerService;
-    private UserService   userService;
+    private PlayerService        playerService;
+    private UserService          userService;
+    private ConfigurationService configurationService;
 
     public PlayerService getPlayerService() {
         return playerService;
@@ -33,5 +35,13 @@ public class LDZControllerBean implements Serializable {
 
     public void setUserService(UserService userService) {
         this.userService = userService;
+    }
+
+    public ConfigurationService getConfigurationService() {
+        return configurationService;
+    }
+
+    public void setConfigurationService(ConfigurationService configurationService) {
+        this.configurationService = configurationService;
     }    
 }

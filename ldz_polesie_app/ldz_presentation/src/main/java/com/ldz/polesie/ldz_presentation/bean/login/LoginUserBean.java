@@ -24,21 +24,16 @@ public class LoginUserBean implements Serializable {
     private LoginUserDetailsBean loginUserDetailsBean;
 
     public String login() {
-
         try {
-
             Authentication request = new UsernamePasswordAuthenticationToken(loginUserDetailsBean.getLogin(), loginUserDetailsBean.getPassword());
             Authentication result = authenticationManager.authenticate(request);
             SecurityContextHolder.getContext().setAuthentication(result);
-
         } catch (AuthenticationException ex) {
-            System.out.println("rzucony blad z dupy " + ex.getMessage() + ex.getLocalizedMessage());
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niepoprawny login/haslo lub uzytkowik zostal zablokowany", "Niepoprawny login/haslo lub uzytkowik zostal zablokowany"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Niepoprawny login/hasło lub użytkowik został zablokowany", "Niepoprawny login/hasło lub użytkowik został zablokowany"));
             return "";
         }
 
-        System.out.println("po autoryzacji " + SecurityContextHolder.getContext().getAuthentication().getName());
-
+        System.out.println("After authorization, user name is: " + SecurityContextHolder.getContext().getAuthentication().getName());
         return "logged";
     }
 

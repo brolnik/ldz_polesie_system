@@ -9,6 +9,8 @@ package com.ldz.polesie.ldz_presentation.model;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Date;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.Pattern;
 
 /**
  *
@@ -24,6 +26,8 @@ public class PlayerRegistrationModel implements Serializable {
     private String  position;
     private String  nickname;
     private String  email;
+    
+    @Pattern(regexp = "[0-9]{9}", message = "Błąd, Numer telefonu może składac się wyłącznie z cyfr!")
     private String  phoneNumber;
     private byte[]  photo;
     private Integer tshirtNumber;

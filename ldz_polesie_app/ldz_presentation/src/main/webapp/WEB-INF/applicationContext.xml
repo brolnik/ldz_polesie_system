@@ -63,15 +63,24 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
     
+    <bean id="configurationDao" class="com.ldz.polesie.ldz_presentation.dao.configuration.ConfigurationDAOImpl">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
     <!-- SERVICES -->
     <bean id="userService" class="com.ldz.polesie.ldz_presentation.service.UserServiceImpl">
         <property name="userDao" ref = "userDao"/>
+    </bean>
+    
+    <bean id="configurationService" class="com.ldz.polesie.ldz_presentation.service.ConfigurationServiceImpl" scope="singleton" init-method="initConfiguration">
+        <property name="configurationDao" ref = "configurationDao"/>
     </bean>
     
     <bean id="playerService" class="com.ldz.polesie.ldz_presentation.service.PlayerServiceImpl" scope="session">
         <property name="userDao"   ref = "userDao"/>
         <property name="roleDao"   ref = "roleDao"/>
         <property name="playerDao" ref = "playerDao"/>
+        <property name="configurationService" ref="configurationService"/>
     </bean>
      
 </beans>

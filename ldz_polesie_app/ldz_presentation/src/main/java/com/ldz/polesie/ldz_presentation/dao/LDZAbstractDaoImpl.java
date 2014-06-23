@@ -30,6 +30,7 @@ public abstract class LDZAbstractDaoImpl<T> extends HibernateDaoSupport implemen
         StringBuilder query = new StringBuilder();
         query.append("from ").append(type.getSimpleName()).append(" as x where ").append("x.").append(elemName).append(" = ?");
         List<T> results = getHibernateTemplate().find(query.toString(), value);
+        if(results.size() <= 0) return null;
         return results.get(0);
     }
 
@@ -43,6 +44,5 @@ public abstract class LDZAbstractDaoImpl<T> extends HibernateDaoSupport implemen
         Type t = getClass().getGenericSuperclass();
         ParameterizedType pt = (ParameterizedType) t;
         type = (Class) pt.getActualTypeArguments()[0];
-    }
-
+    }    
 }
